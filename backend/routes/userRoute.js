@@ -24,7 +24,7 @@ userRoute.post("/signup", async (req, res)=>{
             })
         }
     } catch (error) {
-        res.status(400).send({"error": error})
+        res.status(400).send({"error": error.message})
     }
 })
 
@@ -41,14 +41,61 @@ userRoute.post("/login", async(req, res)=>{
                     res.status(200).send({ message: "Wrong Password !!" });
                 }else{
                     const accessToken = jwt.sign({userID: checkUser?._id, username: checkUser?.username}, "shatru47");
-                    res.status(200).send({msg:"Logged-in successfully", accessToken: accessToken, username: checkUser?.username})
+                    res.status(200).send({msg:"Logged-in successfully", accessToken: accessToken, user: {_id:checkUser?._id ,username: checkUser?.username, email: checkUser?.email, role: checkUser?.role}})
                 }
             })
         }
     } catch (error) {
-        res.status(400).send({"error": error}) 
+        res.status(400).send({"error": error.message}) 
     }
 })
+
+//Update a User
+userRoute.patch("/update/:id", async (req, res)=>{
+    const {username, email, password, role} = req.body;
+    const {id} = req.params;
+    try {
+        const user = await UserModel.findOne({_id: id});
+        if(!user){
+            res.status(200).send({"msg": "User not found!"})
+        }else{
+            bcrypt.hash(password, +process.env.saltRounds, async (err, hash)=>{
+                if(err){
+                    res.status(400).send({"error": err})
+                }
+                const user = await UserModel.findByIdAndUpdate({_id: id}, {username, role, password: hash, email} )
+                const updatedUser = await UserModel.findOne({_id: id});
+                res.status(200).send({ message: "Updated successfully", user: {_id: updatedUser?._id, username: updatedUser?.username, role: updatedUser?.role, email: updatedUser?.email}});
+            })
+        }
+        
+    } catch (error) {
+        res.status(400).send({"error": error.message}) 
+    }
+})
+
+//Delete a user by admin
+userRoute.delete("/delete/:id", async (req, res)=>{
+    const {id} = req.params;
+    try {
+        await UserModel.findByIdAndDelete({_id: id});
+        res.status(200).send({"msg": `User with _id: ${id} deleted successfully`})
+    } catch (error) {
+        res.status(400).send({"error": error.message}) 
+    }
+})
+
+
+//Get all users by admin
+userRoute.get("/allusers", async (req, res)=>{
+    try {
+        const users = UserModel.find();
+        res.status(200).json({users: users})
+    } catch (error) {
+        res.status(400).send({"error": error.message}) 
+    }
+})
+
 
 
 module.exports = {
