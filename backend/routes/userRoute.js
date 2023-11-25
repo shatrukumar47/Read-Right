@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const { UserModel } = require("../models/user.model");
+const authMiddleware = require("../middlewares/auth.middleware");
 
 const userRoute = express.Router();
 
@@ -40,7 +41,7 @@ userRoute.post("/login", async(req, res)=>{
                 if(!result){
                     res.status(200).send({ message: "Wrong Password !!" });
                 }else{
-                    const accessToken = jwt.sign({userID: checkUser?._id, username: checkUser?.username}, "shatru47");
+                    const accessToken = jwt.sign({userID: checkUser?._id, username: checkUser?.username}, process.env.JWT_SECRET);
                     res.status(200).send({msg:"Logged-in successfully", accessToken: accessToken, user: {_id:checkUser?._id ,username: checkUser?.username, email: checkUser?.email, role: checkUser?.role}})
                 }
             })
@@ -51,7 +52,7 @@ userRoute.post("/login", async(req, res)=>{
 })
 
 //Update a User
-userRoute.patch("/update/:id", async (req, res)=>{
+userRoute.patch("/update/:id", authMiddleware, async (req, res)=>{
     const {username, email, password, role} = req.body;
     const {id} = req.params;
     try {
@@ -75,7 +76,7 @@ userRoute.patch("/update/:id", async (req, res)=>{
 })
 
 //Delete a user by admin
-userRoute.delete("/delete/:id", async (req, res)=>{
+userRoute.delete("/delete/:id",authMiddleware, async (req, res)=>{
     const {id} = req.params;
     try {
         await UserModel.findByIdAndDelete({_id: id});
@@ -87,9 +88,9 @@ userRoute.delete("/delete/:id", async (req, res)=>{
 
 
 //Get all users by admin
-userRoute.get("/allusers", async (req, res)=>{
+userRoute.get("/", authMiddleware, async (req, res)=>{
     try {
-        const users = UserModel.find();
+        const users = await UserModel.find();
         res.status(200).json({users: users})
     } catch (error) {
         res.status(400).send({"error": error.message}) 

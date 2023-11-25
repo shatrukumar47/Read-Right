@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const bookReviewSchema = mongoose.Schema({
     userID: {type: String, required: true},
+    username: {type: String, required: true},
     bookID: {type: String, required: true},
     review: {type: String, required: true},
     rating: {type: Number, required: true},

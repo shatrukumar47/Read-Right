@@ -3,14 +3,24 @@ const cors = require("cors");
 const { connection } = require("./db");
 const { userRoute } = require("./routes/userRoute");
 const { bookRouter } = require("./routes/bookRoute");
+const { communityDiscRoute } = require("./routes/communityDiscRoute");
+const { purchaseRoute } = require("./routes/purchaseRoute");
+const { discussionPostRoute } = require("./routes/discussionPostRoute");
+const { bookReviewRoute } = require("./routes/bookReviewRoute");
+const { readingListRoute } = require("./routes/readingListRoute");
 
 
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use("/user", userRoute);
-app.use("/book", bookRouter);
+app.use("/users", userRoute);
+app.use("/books", bookRouter);
+app.use("/community", communityDiscRoute);
+app.use("/purchases", purchaseRoute);
+app.use("/posts", discussionPostRoute);
+app.use("/review", bookReviewRoute);
+app.use("/reading-lists", readingListRoute);
 
 app.get("/", (req, res)=>{
     res.status(200).send("Welcome to Read Right Backend")
