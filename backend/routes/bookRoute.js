@@ -16,12 +16,18 @@ bookRouter.get("/", async (req, res)=>{
 
 //Add Book
 bookRouter.post("/add", authMiddleware, async (req, res) => {
+  const {userID, role, username, image, title, author, genre, description, price} = req.body;
+  if(role === "reader"){
+    return res.status(403).json({ msg: 'Access forbidden' });
+  }
+
+
   try {
     const checkExistingBook = await BookModel.findOne({title: req.body.title});
     if(checkExistingBook){
       res.status(200).send({"msg": "Book already exists!"})
     }else{
-      const newBook = new BookModel(req.body);
+      const newBook = new BookModel({authorID: userID, image, title, author, genre, description, price});
       await newBook.save();
       res.status(200).send({"msg": "Book added successfully", "book": newBook});
     }
@@ -43,13 +49,20 @@ bookRouter.get("/:id", async (req, res)=>{
 
 //Update a book by id
 bookRouter.patch("/update/:id", authMiddleware, async (req, res)=>{
+  const {userID, role, username, title, author, genre, description, price} = req.body;
   const {id} = req.params;
+
+  if(role === "reader"){
+    return res.status(403).json({ msg: 'Access forbidden' });
+  }
+
+
   try {
     const checkAvailability = await BookModel.findOne({_id: id});
     if(!checkAvailability){
       res.status(200).send({"msg": "Book not found!"});
     }else{
-      await BookModel.findByIdAndUpdate({_id: id}, req,body);
+      await BookModel.findByIdAndUpdate({_id: id}, {title, author, genre, description, price});
       const updatedBook = await BookModel.findOne({_id: id});
       res.status(200).json(updatedBook);
     }
@@ -60,7 +73,13 @@ bookRouter.patch("/update/:id", authMiddleware, async (req, res)=>{
 
 //Delete a book by id
 bookRouter.delete("/delete/:id", authMiddleware, async(req, res)=>{
+  const {role} = req.body;
   const {id} = req.params;
+
+  if(role === "reader"){
+    return res.status(403).json({ message: 'Access forbidden' });
+  }
+  
   try {
     await BookModel.findByIdAndDelete({_id: id});
     res.status(200).send({"msg": `Book with _id: ${id} deleted`})

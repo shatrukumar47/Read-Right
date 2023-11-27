@@ -33,8 +33,9 @@ purchaseRoute.get("/:id", authMiddleware, async (req, res)=>{
 
 //Create a purchase
 purchaseRoute.post("/create",authMiddleware, async(req, res)=>{
+    const {userID, bookID, payment_details, delivery_address, pincode } = req.body;
     try {
-        const newPurchase = new PurchaseModel(req.body);
+        const newPurchase = new PurchaseModel({userID, bookID, payment_details, delivery_address, pincode});
         await newPurchase.save();
         res.status(200).send({"msg": "New purchase created successfully"})
     } catch (error) {
@@ -43,10 +44,10 @@ purchaseRoute.post("/create",authMiddleware, async(req, res)=>{
 })
 
 // Cancel or Delete a purchase
-purchaseRoute.delete("/delete/:id", async (req, res)=>{
+purchaseRoute.delete("/delete/:id", authMiddleware, async (req, res)=>{
     const {id} = req.params;
     try {
-        await purchaseRoute.findByIdAndDelete({_id: id});
+        await PurchaseModel.findByIdAndDelete({_id: id});
         res.status(200).send({"msg": `Purchase with id: ${id} deleted successfully`})
     } catch (error) {
         res.status(400).send({"error": error.message})

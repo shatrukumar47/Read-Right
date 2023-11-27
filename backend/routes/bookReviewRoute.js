@@ -17,7 +17,16 @@ bookReviewRoute.get("/:id", async(req, res)=>{
 
 //post a review
 bookReviewRoute.post("/create",authMiddleware, async(req, res)=>{
+    const {userID} = req.body;
+
     try {
+
+        const existingReview = await BookReviewModel.findOne({userID: userID});
+
+        if(existingReview){
+           return res.status(200).send({"msg": "already reviewed"});
+        }
+
         const newReview = new BookReviewModel(req.body);
         newReview.save();
         res.status(200).send({"msg": "Review posted", review: newReview});
@@ -30,7 +39,18 @@ bookReviewRoute.post("/create",authMiddleware, async(req, res)=>{
 //delete a review by id
 bookReviewRoute.delete("/delete/:id", authMiddleware, async(req, res)=>{
     const {id} = req.params;
+    const {userID} = req.body;
     try {
+
+        const checkReview = await BookReviewModel.findById(id);
+        if(!checkReview){
+            return res.status(200).json({ msg: 'No review found' });
+        }
+
+        if(checkReview.userID !== userID){
+            return res.status(403).json({ msg: 'Access forbidden' });
+        }
+
         await BookReviewModel.findByIdAndDelete({_id: id});
         res.status(200).send({"msg": "Deleted successfully"})
     } catch (error) {

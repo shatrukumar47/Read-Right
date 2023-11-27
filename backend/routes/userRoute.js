@@ -8,97 +8,156 @@ const authMiddleware = require("../middlewares/auth.middleware");
 const userRoute = express.Router();
 
 //Registeration
-userRoute.post("/signup", async (req, res)=>{
-    const {username, email, password, role} = req.body;
-    try {
-        const existingUser = await UserModel.findOne({email: email});
-        if(existingUser){
-            res.status(400).send({"msg": "Already Registered !!"})
-        }else{
-            bcrypt.hash(password, +process.env.saltRounds, async (err, hash)=>{
-                if(err){
-                    res.status(400).send({"error": err})
-                }
-                const user = new UserModel({username, email, password:hash, role});
-                await user.save();
-                res.status(200).send({ message: "Registered successfully" });
-            })
-        }
-    } catch (error) {
-        res.status(400).send({"error": error.message})
+userRoute.post("/signup", async (req, res) => {
+  const { image, username, email, password, role } = req.body;
+  try {
+    const existingUser = await UserModel.findOne({ email: email });
+    const checkusername = await UserModel.findOne({ username: username });
+    if (checkusername) {
+      res.json({ available: false, message: "Username not available" });
     }
-})
+    if (existingUser) {
+      res.status(400).send({ msg: "Already Registered !!" });
+    } else {
+      bcrypt.hash(password, +process.env.saltRounds, async (err, hash) => {
+        if (err) {
+          res.status(400).send({ error: err });
+        }
+        const user = new UserModel({
+          image:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSegdLPBUw9F-YVGoqjyYcgSA8VQOfyF4aFTg&usqp=CAU",
+          username,
+          email,
+          password: hash,
+          role,
+        });
+        await user.save();
+        res.status(200).send({ message: "Registered successfully" });
+      });
+    }
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
+//check username availability
+userRoute.get("/check-username/:username", async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const existingUser = await UserModel.findOne({ username });
+
+    if (existingUser) {
+      res.json({ available: false, message: "Username not available" });
+    } else {
+      res.json({ available: true, message: "Username available" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
 
 //Login
-userRoute.post("/login", async(req, res)=>{
-    const {email, password} = req.body;
-    try {
-        let checkUser = await UserModel.findOne({email: email});
-        if(!checkUser){
-            res.status(200).send({ message: "User Not Found !!" });
-        }else{
-            bcrypt.compare(password, checkUser?.password, (error, result)=>{
-                if(!result){
-                    res.status(200).send({ message: "Wrong Password !!" });
-                }else{
-                    const accessToken = jwt.sign({userID: checkUser?._id, username: checkUser?.username}, process.env.JWT_SECRET);
-                    res.status(200).send({msg:"Logged-in successfully", accessToken: accessToken, user: {_id:checkUser?._id ,username: checkUser?.username, email: checkUser?.email, role: checkUser?.role}})
-                }
-            })
+userRoute.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    let checkUser = await UserModel.findOne({ email: email });
+    if (!checkUser) {
+      res.status(200).send({ message: "User Not Found !!" });
+    } else {
+      bcrypt.compare(password, checkUser?.password, (error, result) => {
+        if (!result) {
+          res.status(200).send({ message: "Wrong Password !!" });
+        } else {
+          const accessToken = jwt.sign(
+            {
+              userID: checkUser?._id,
+              username: checkUser?.username,
+              role: checkUser?.role,
+            },
+            process.env.JWT_SECRET
+          );
+          res.status(200).send({
+            msg: "Logged-in successfully",
+            accessToken: accessToken,
+            user: {
+              _id: checkUser?._id,
+              username: checkUser?.username,
+              email: checkUser?.email,
+              role: checkUser?.role,
+            },
+          });
         }
-    } catch (error) {
-        res.status(400).send({"error": error.message}) 
+      });
     }
-})
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
 
 //Update a User
-userRoute.patch("/update/:id", authMiddleware, async (req, res)=>{
-    const {username, email, password, role} = req.body;
-    const {id} = req.params;
-    try {
-        const user = await UserModel.findOne({_id: id});
-        if(!user){
-            res.status(200).send({"msg": "User not found!"})
-        }else{
-            bcrypt.hash(password, +process.env.saltRounds, async (err, hash)=>{
-                if(err){
-                    res.status(400).send({"error": err})
-                }
-                const user = await UserModel.findByIdAndUpdate({_id: id}, {username, role, password: hash, email} )
-                const updatedUser = await UserModel.findOne({_id: id});
-                res.status(200).send({ message: "Updated successfully", user: {_id: updatedUser?._id, username: updatedUser?.username, role: updatedUser?.role, email: updatedUser?.email}});
-            })
+userRoute.patch("/update/:id", authMiddleware, async (req, res) => {
+  const { image, username, email, password, role } = req.body;
+  const { id } = req.params;
+  try {
+    const user = await UserModel.findOne({ _id: id });
+    if (!user) {
+      res.status(200).send({ msg: "User not found!" });
+    } else {
+      bcrypt.hash(password, +process.env.saltRounds, async (err, hash) => {
+        if (err) {
+          res.status(400).send({ error: err });
         }
-        
-    } catch (error) {
-        res.status(400).send({"error": error.message}) 
+        const user = await UserModel.findByIdAndUpdate(
+          { _id: id },
+          { image, username, role, password: hash, email }
+        );
+        const updatedUser = await UserModel.findOne({ _id: id });
+        res.status(200).send({
+          message: "Updated successfully",
+          user: {
+            _id: updatedUser?._id,
+            username: updatedUser?.username,
+            role: updatedUser?.role,
+            email: updatedUser?.email,
+          },
+        });
+      });
     }
-})
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
 
 //Delete a user by admin
-userRoute.delete("/delete/:id",authMiddleware, async (req, res)=>{
-    const {id} = req.params;
-    try {
-        await UserModel.findByIdAndDelete({_id: id});
-        res.status(200).send({"msg": `User with _id: ${id} deleted successfully`})
-    } catch (error) {
-        res.status(400).send({"error": error.message}) 
-    }
-})
-
+userRoute.delete("/delete/:id", authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+  if (role === "reader" || role === "author") {
+    return res.status(403).json({ message: "Access forbidden" });
+  }
+  try {
+    await UserModel.findByIdAndDelete({ _id: id });
+    res.status(200).send({ msg: `User with _id: ${id} deleted successfully` });
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
 
 //Get all users by admin
-userRoute.get("/", authMiddleware, async (req, res)=>{
-    try {
-        const users = await UserModel.find();
-        res.status(200).json({users: users})
-    } catch (error) {
-        res.status(400).send({"error": error.message}) 
-    }
-})
-
-
+userRoute.get("/", authMiddleware, async (req, res) => {
+  const { role } = req.body;
+  if (role === "reader" || role === "author") {
+    return res.status(403).json({ message: "Access forbidden" });
+  }
+  try {
+    const users = await UserModel.find();
+    res.status(200).json({ users: users });
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
 
 module.exports = {
-    userRoute
-}
+  userRoute,
+};

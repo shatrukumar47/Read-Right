@@ -6,6 +6,7 @@ const purchaseSchema = mongoose.Schema(
     bookID: { type: String, required: true },
     purchase_date: { type: Date, default: Date.now },
     payment_details: { type: Array, required: true },
+    pincode: { type: Number, required: true },
     delivery_address: { type: String, required: true },
   },
   {
