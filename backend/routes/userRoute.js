@@ -17,7 +17,7 @@ userRoute.post("/signup", async (req, res) => {
       res.json({ available: false, message: "Username not available" });
     }
     if (existingUser) {
-      res.status(400).send({ msg: "Already Registered !!" });
+      res.status(200).send({ msg: "Already Registered !!", registered: false });
     } else {
       bcrypt.hash(password, +process.env.saltRounds, async (err, hash) => {
         if (err) {
@@ -25,14 +25,14 @@ userRoute.post("/signup", async (req, res) => {
         }
         const user = new UserModel({
           image:
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSegdLPBUw9F-YVGoqjyYcgSA8VQOfyF4aFTg&usqp=CAU",
+            "https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=626&ext=jpg&ga=GA1.1.1257944628.1683352118",
           username,
           email,
           password: hash,
           role,
         });
         await user.save();
-        res.status(200).send({ message: "Registered successfully" });
+        res.status(200).send({ message: "Registered successfully",registered: true });
       });
     }
   } catch (error) {
@@ -63,11 +63,11 @@ userRoute.post("/login", async (req, res) => {
   try {
     let checkUser = await UserModel.findOne({ email: email });
     if (!checkUser) {
-      res.status(200).send({ message: "User Not Found !!" });
+      res.status(200).send({ message: "User Not Found !!", login: false });
     } else {
       bcrypt.compare(password, checkUser?.password, (error, result) => {
         if (!result) {
-          res.status(200).send({ message: "Wrong Password !!" });
+          res.status(200).send({ message: "Wrong Password !!" , login: false});
         } else {
           const accessToken = jwt.sign(
             {
@@ -79,6 +79,7 @@ userRoute.post("/login", async (req, res) => {
           );
           res.status(200).send({
             msg: "Logged-in successfully",
+            login: true,
             accessToken: accessToken,
             user: {
               _id: checkUser?._id,
@@ -95,14 +96,30 @@ userRoute.post("/login", async (req, res) => {
   }
 });
 
+//Get a user details
+userRoute.get("/:id", authMiddleware, async (req, res)=>{
+  const userID = req.params.id;
+  try {
+    const user = await UserModel.findOne({ _id: userID });
+    if (!user) {
+      res.status(200).send({ msg: "User not found!" });
+    }else{
+      res.json(user)
+    }
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+})
+
 //Update a User
 userRoute.patch("/update/:id", authMiddleware, async (req, res) => {
   const { image, username, email, password, role } = req.body;
+
   const { id } = req.params;
   try {
     const user = await UserModel.findOne({ _id: id });
     if (!user) {
-      res.status(200).send({ msg: "User not found!" });
+      res.status(200).send({ msg: "User not found!" ,updated: false});
     } else {
       bcrypt.hash(password, +process.env.saltRounds, async (err, hash) => {
         if (err) {
@@ -114,6 +131,7 @@ userRoute.patch("/update/:id", authMiddleware, async (req, res) => {
         );
         const updatedUser = await UserModel.findOne({ _id: id });
         res.status(200).send({
+          updated: true,
           message: "Updated successfully",
           user: {
             _id: updatedUser?._id,

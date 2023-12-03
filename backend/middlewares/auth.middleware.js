@@ -19,10 +19,15 @@ const authMiddleware = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded) {
-      req.body.userID = decoded.userID;
-      req.body.username = decoded.username;
-      req.body.role = decoded.role;
-      next();
+      if(req.originalUrl.includes("users/update")){
+        req.body.userID = decoded.userID;
+        next();
+      }else{
+        req.body.userID = decoded.userID;
+        req.body.username = decoded.username;
+        req.body.role = decoded.role;
+        next();
+      }
     } else {
       res.status(401).json({ message: "Invalid token" });
     }

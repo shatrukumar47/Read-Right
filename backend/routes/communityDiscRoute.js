@@ -14,6 +14,21 @@ communityDiscRoute.get("/", async (req, res) => {
   }
 });
 
+//Get all discussions by bookID
+communityDiscRoute.get("/book/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const discussion = await CommunityDiscModel.find({ bookID: id });
+    if (discussion) {
+      res.status(200).json(discussion);
+    } else {
+      res.status(200).send({ msg: "Discussions not found!" });
+    }
+  } catch (error) {
+    res.status(400).send({ error: error.message });
+  }
+});
+
 //Get a single discussion by id
 communityDiscRoute.get("/:id", async (req, res) => {
   const { id } = req.params;
@@ -34,12 +49,10 @@ communityDiscRoute.post("/create", authMiddleware, async (req, res) => {
   try {
     const newDiscussion = new CommunityDiscModel(req.body);
     newDiscussion.save();
-    res
-      .status(200)
-      .send({
-        msg: "Discussion created successfully",
-        discussion: newDiscussion,
-      });
+    res.status(200).send({
+      msg: "Discussion created successfully",
+      discussion: newDiscussion,
+    });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -48,15 +61,15 @@ communityDiscRoute.post("/create", authMiddleware, async (req, res) => {
 //Update a discussion by id
 communityDiscRoute.patch("/update/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
-  const {userID} = req.body;
+  const { userID } = req.body;
   try {
     const checkDiscussion = await CommunityDiscModel.findOne({ _id: id });
     if (!checkDiscussion) {
       return res.status(200).send({ msg: "Discussion not found!" });
     }
 
-    if(checkDiscussion.userID !== userID){
-      return res.status(403).json({ msg: 'Access forbidden' });
+    if (checkDiscussion.userID !== userID) {
+      return res.status(403).json({ msg: "Access forbidden" });
     }
 
     await CommunityDiscModel.findByIdAndUpdate({ _id: id }, req.body);
@@ -64,7 +77,6 @@ communityDiscRoute.patch("/update/:id", authMiddleware, async (req, res) => {
     res
       .status(200)
       .send({ msg: "Updated successfully", discussion: updateDiscussion });
-    
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -73,16 +85,15 @@ communityDiscRoute.patch("/update/:id", authMiddleware, async (req, res) => {
 //Delete a discussion by id
 communityDiscRoute.delete("/delete/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
-  const {userID} = req.body;
+  const { userID } = req.body;
   try {
-
     const checkDiscussion = await CommunityDiscModel.findOne({ _id: id });
     if (!checkDiscussion) {
       return res.status(200).send({ msg: "Discussion not found!" });
     }
 
-    if(checkDiscussion.userID !== userID){
-      return res.status(403).json({ msg: 'Access forbidden' });
+    if (checkDiscussion.userID !== userID) {
+      return res.status(403).json({ msg: "Access forbidden" });
     }
 
     await CommunityDiscModel.findByIdAndDelete({ _id: id });

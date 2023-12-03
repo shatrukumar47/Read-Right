@@ -9,6 +9,7 @@ const { discussionPostRoute } = require("./routes/discussionPostRoute");
 const { bookReviewRoute } = require("./routes/bookReviewRoute");
 const { readingListRoute } = require("./routes/readingListRoute");
 const { chatRouter } = require("./routes/chatbotRoute");
+const { cartRouter } = require("./routes/cartRoute");
 
 
 
@@ -23,6 +24,7 @@ app.use("/posts", discussionPostRoute);
 app.use("/review", bookReviewRoute);
 app.use("/reading-lists", readingListRoute);
 app.use("/chatbot", chatRouter);
+app.use("/cart", cartRouter);
 
 app.get("/", (req, res)=>{
     res.status(200).send("Welcome to Read Right Backend")

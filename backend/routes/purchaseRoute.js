@@ -33,11 +33,11 @@ purchaseRoute.get("/:id", authMiddleware, async (req, res)=>{
 
 //Create a purchase
 purchaseRoute.post("/create",authMiddleware, async(req, res)=>{
-    const {userID, bookID, payment_details, delivery_address, pincode } = req.body;
+    const {userID, books, payment_details, delivery_address, pincode, amount } = req.body;
     try {
-        const newPurchase = new PurchaseModel({userID, bookID, payment_details, delivery_address, pincode});
+        const newPurchase = new PurchaseModel({userID, books, payment_details, delivery_address, pincode, amount});
         await newPurchase.save();
-        res.status(200).send({"msg": "New purchase created successfully"})
+        res.status(200).send({"msg": "New purchase created successfully", details: newPurchase, purchased: true})
     } catch (error) {
         res.status(400).send({"error": error.message})
     }
@@ -48,7 +48,7 @@ purchaseRoute.delete("/delete/:id", authMiddleware, async (req, res)=>{
     const {id} = req.params;
     try {
         await PurchaseModel.findByIdAndDelete({_id: id});
-        res.status(200).send({"msg": `Purchase with id: ${id} deleted successfully`})
+        res.status(200).send({"msg": `Purchase with id: ${id} deleted successfully`, deleted: true})
     } catch (error) {
         res.status(400).send({"error": error.message})
     }
