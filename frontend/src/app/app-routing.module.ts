@@ -12,19 +12,20 @@ import { SignupComponent } from './pages/auth/signup/signup.component';
 import { DiscussionDetailsComponent } from './pages/discussion-details/discussion-details.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 import { ThankYouComponent } from './shared/components/thank-you/thank-you.component';
+import { authGuardGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   {path:"", component: HomeComponent},
   {path:"books", component: BookListComponent},
   {path:"books/:id", component: BookDetailsComponent},
-  {path:"discussions/:id", component: DiscussionDetailsComponent},
+  {path:"discussions/:id", component: DiscussionDetailsComponent, canActivate: [authGuardGuard]},
   {path:"login", component: LoginComponent},
   {path:"signup", component: SignupComponent},
-  {path: "cart", component: CartPageComponent},
-  {path: "checkout", component:CheckoutComponent},
-  {path: "wishlist", component:WishlistComponent},
-  {path: "profile", component:ProfilePageComponent},
-  {path: "order-confirmed", component:ThankYouComponent},
+  {path: "cart", component: CartPageComponent , canActivate: [authGuardGuard]},
+  {path: "checkout", component:CheckoutComponent , canActivate: [authGuardGuard]},
+  {path: "wishlist", component:WishlistComponent , canActivate: [authGuardGuard]},
+  {path: "profile", component:ProfilePageComponent , canActivate: [authGuardGuard]},
+  {path: "order-confirmed", component:ThankYouComponent , canActivate: [authGuardGuard]},
   {path: "**", component: PagenotfoundComponent}
 ];
 
