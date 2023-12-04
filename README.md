@@ -5,7 +5,7 @@ Welcome to Read Right, an advanced online platform that seamlessly integrates a 
 
 ## Deployment Link
 
-[vercel](https://frontend-blush-six.vercel.app)
+[vercel](https://read-right-shatru.vercel.app/books)
 
 ##
 
