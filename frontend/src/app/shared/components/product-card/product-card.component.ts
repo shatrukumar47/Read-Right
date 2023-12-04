@@ -1,6 +1,7 @@
 import { Component, Input, Output , EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
+import { ReadingListService } from '../../../core/services/reading-list.service';
 
 @Component({
   selector: 'app-product-card',
@@ -10,9 +11,12 @@ import { CartService } from '../../../core/services/cart.service';
 export class ProductCardComponent {
   @Input() item: any = {};
   @Input() openModalInput: any;
+  isModalOpen: boolean = false;
+  readinglist:any= [];
+  loading: boolean = false;
 
 
-  constructor(private router: Router, private cartService: CartService){}
+  constructor(private router: Router, private cartService: CartService, private readingListService: ReadingListService){}
 
   addToCart(){
     this.cartService.addToCart(this.item).subscribe((res)=>{
@@ -24,12 +28,41 @@ export class ProductCardComponent {
     })
   }
 
-  readingList(bookID: string): void{
-    this.openModalInput(bookID);
+  openModal(bookID: string){
+    this.getReadingLists();
+    this.isModalOpen = true;
+  }
+
+  closeModal(){
+    this.isModalOpen = false;
+  }
+
+  handleAddBookToRL(rlID: string){
+    this.readingListService.addABookToRL(rlID, this.item._id).subscribe((res)=>{
+      // console.log(res);
+      alert(res.msg)
+    },
+    (err)=>{
+      console.log(err)
+    })
   }
 
 
   handleViewDetails(){
     this.router.navigate(['/books', this.item._id]);
+  }
+
+
+  getReadingLists(){
+    this.loading = true;
+    this.readingListService.getPrivateList().subscribe((res)=>{
+      // console.log(res);
+      this.readinglist = res;
+      this.loading = false;
+    },
+    (err)=>{
+      console.log(err)
+      this.loading = false;
+    })
   }
 }

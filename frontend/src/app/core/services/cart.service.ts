@@ -66,7 +66,7 @@ export class CartService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post<any>(`${this.cartAPI}/complete-purchase`, {headers})
+    return this.http.post<any>(`${this.cartAPI}/complete-purchase`, {}, {headers})
   }
 
 

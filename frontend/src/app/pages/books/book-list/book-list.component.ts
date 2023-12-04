@@ -16,7 +16,6 @@ export class BookListComponent implements OnInit {
   sortingOrder: string = '';
   searchInput: string = '';
   categoryValue: string = '';
-  isModalOpen: boolean = false;
 
   constructor(private store: Store<AppState>, private bookService: BookService){}
 
@@ -43,15 +42,7 @@ export class BookListComponent implements OnInit {
    
   }
 
-  openModal(bookID: string){
-    console.log("hello")
-    this.isModalOpen = true;
-    window.location.reload()
-  }
-
-  closeModal(){
-    this.isModalOpen = false;
-  }
+  
 
 
   fetchBooks(){

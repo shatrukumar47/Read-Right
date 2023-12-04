@@ -43,8 +43,13 @@ export class CheckoutComponent implements OnInit{
       }
       this.loading = true;
       this.purchaseService.createPurchase(payload).subscribe((res)=>{
-        console.log(res);
         this.loading = false;
+        this.cartService.clearCartAfterPurchase().subscribe((res)=>{
+          // console.log(res)
+        },
+        (err)=>{
+          console.log(err)
+        })
         this.router.navigate(["order-confirmed"])
       },
       (err)=>{

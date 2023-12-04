@@ -43,6 +43,15 @@ export class ReadingListService {
     return this.http.get<any>(`${this.api}/${readingListID}`,  {headers})
   }
 
+  addABookToRL(readingListID: string, bookID: string):Observable<any>{
+    this.setToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+      'Content-Type': 'application/json',
+    });
+    return this.http.post<any>(`${this.api}/addbook/${readingListID}`, {bookID}, {headers})
+  }
+
 
   setToken(){
     this.store.select((state)=> state.auth.token).subscribe((res)=>{
