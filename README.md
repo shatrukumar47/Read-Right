@@ -61,39 +61,33 @@ BACKEND -
 
 # Snap Shots 📷
 ## Landing Page
-![Screenshot (340)](https://github.com/shatrukumar47/vogue-pocket-8479/assets/123942835/7d6161aa-1ea1-40b4-8d87-a2155dfb5c3c)
+![home](https://github.com/shatrukumar47/Read-Right/assets/123942835/aa5c2360-ec4b-4b33-a38e-ab3df7446ce2)
 
 ## Login Page
-![Screenshot (341)](https://github.com/shatrukumar47/vogue-pocket-8479/assets/123942835/6bd69e83-8cae-457d-8b0e-7b411f12bcc4)
+![login](https://github.com/shatrukumar47/Read-Right/assets/123942835/c533ec72-c5c7-43ae-bd29-0e905b643b04)
 
 ## Signup Page 
-![Screenshot (342)](https://github.com/shatrukumar47/vogue-pocket-8479/assets/123942835/e6bed94c-93c0-4942-8447-902b7016eb0c)
+![signup](https://github.com/shatrukumar47/Read-Right/assets/123942835/1f354fce-3246-4aa5-a979-bc15c9ffc2a5)
 
-## Dashboard
-![Screenshot (346)](https://github.com/shatrukumar47/vogue-pocket-8479/assets/123942835/38522ff0-aa8c-410e-bfac-30d49f1e3800)
-![Screenshot (347)](https://github.com/shatrukumar47/vogue-pocket-8479/assets/123942835/571e1f84-8d65-46f6-8f1a-7f6232897a33)
-![Screenshot (348)](https://github.com/shatrukumar47/vogue-pocket-8479/assets/123942835/24248dc8-aaf8-40bb-8316-9c6b0542bc66)
+## Profile Page
+![profile](https://github.com/shatrukumar47/Read-Right/assets/123942835/337d816b-0f55-4838-bab0-b75f5d1ad8a9)
 
-## Product Page
-![Screenshot (343)](https://github.com/shatrukumar47/vogue-pocket-8479/assets/123942835/e4ad10fb-5e01-452b-90d2-b4a09087049b)
+## Reading List
+![reading list](https://github.com/shatrukumar47/Read-Right/assets/123942835/96f152ef-96e5-4f84-86d1-8b3bac464905)
+
+## Book List Page
+![book list](https://github.com/shatrukumar47/Read-Right/assets/123942835/d70ce65f-d661-4a50-9922-8b81fcbc76ea)
+
+## Book Details Page
+![book detail](https://github.com/shatrukumar47/Read-Right/assets/123942835/bb3ac549-430d-445f-a97a-f80667190a7b)
+![review](https://github.com/shatrukumar47/Read-Right/assets/123942835/cf0535b1-fe4a-4895-8cd9-d96c8326e6f2)
 
 ## Cart Page
-![Screenshot (352)](https://github.com/shatrukumar47/vogue-pocket-8479/assets/123942835/67873f43-28be-4d6c-93cb-638de5014edb)
+![cart page](https://github.com/shatrukumar47/Read-Right/assets/123942835/4993a0a6-148e-4cab-a48c-71d2964dd662)
 
 ## Checkout Page
-![Screenshot (353)](https://github.com/shatrukumar47/vogue-pocket-8479/assets/123942835/fcdd8e4f-65b7-4716-944c-2232f664c574)
+![checkout](https://github.com/shatrukumar47/Read-Right/assets/123942835/c6c2c4ff-ee08-4eda-bd83-33943c427b1f)
 
-## Admin Page
-![Screenshot (349)](https://github.com/shatrukumar47/vogue-pocket-8479/assets/123942835/d5d790c8-bd83-437a-a97f-785fa3563bc9)
+## Page Not Found
+![pnf](https://github.com/shatrukumar47/Read-Right/assets/123942835/25c0a329-f40f-47eb-8b40-210371abcf97)
 
-
-
-# Contributors 😇
-
-👤 Shatrughan Kumar (Team Leader)
-
-👤 Tanuj Masiwal
-
-👤 Pravin Pawar
-
-👤 Shriya Pandey
