@@ -97,22 +97,22 @@ BACKEND -
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/manikantkr-1004/BookHub.git
+   git clone https://github.com/shatrukumar47/Read-Right.git
    ```
 
 2. Install frontend dependencies:
 
    ```bash
    install frontend dependecies
-   cd Frontend
+   cd frontend
    npm install
    ```
 
 3. Install backend dependecies
 
     ```bash
-   install frontend dependecies
-   cd Backend
+   install backend dependecies
+   cd backend
    npm install
    ```
 Configure your database (replace [database] with your chosen database):
@@ -123,8 +123,14 @@ For MongoDB: create a .env file and create a key value pair with your mongoDb AT
 
 Start the backend server:
  ```bash
-   cd Backend
+   cd backend
    npm run server
+ ```
+
+Start the Angular development server:
+ ```bash
+   cd frontend
+   ng serve --open
  ```
 
 Start the Angular development server:
