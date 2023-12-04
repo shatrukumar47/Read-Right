@@ -7,7 +7,7 @@ import {Observable} from "rxjs"
 })
 export class ChatbotService {
 
-  private api: string = "http://localhost:8080/chatbot"
+  private api: string = "https://readrightbackend.onrender.com/chatbot"
 
   constructor(private http: HttpClient) { }
 

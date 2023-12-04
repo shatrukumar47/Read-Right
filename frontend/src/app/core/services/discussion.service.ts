@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DiscussionService {
-  private discussionAPI = "http://localhost:8080/community"
-  private discussionPostAPI = "http://localhost:8080/posts"
+  private discussionAPI = "https://readrightbackend.onrender.com/community"
+  private discussionPostAPI = "https://readrightbackend.onrender.com/posts"
   private token:string = "";
   constructor(private http: HttpClient, private store: Store<AppState>) { }
 

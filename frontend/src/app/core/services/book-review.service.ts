@@ -14,7 +14,7 @@ export interface postBookReviewInterface{
   providedIn: 'root'
 })
 export class BookReviewService {
-  private bookReviewAPI = "http://localhost:8080/review"
+  private bookReviewAPI = "https://readrightbackend.onrender.com/review"
   private token:string = "";
   constructor(private http: HttpClient, private store: Store<AppState>) { }
 

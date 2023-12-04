@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
-  private cartAPI = "http://localhost:8080/cart";
+  private cartAPI = "https://readrightbackend.onrender.com/cart";
   private token: string = "";
   private userID: string = "";
   private totalAmount: number = 0;

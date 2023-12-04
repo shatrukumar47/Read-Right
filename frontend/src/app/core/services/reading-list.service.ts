@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ReadingListService {
-  private api = "http://localhost:8080/reading-lists"
+  private api = "https://readrightbackend.onrender.com/reading-lists"
   private token:string = "";
   constructor(private http: HttpClient, private store: Store<AppState>) { }
 

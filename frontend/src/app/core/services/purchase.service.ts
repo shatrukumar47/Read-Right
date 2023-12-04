@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PurchaseService {
-  private purchaseAPI = "http://localhost:8080/purchases";
+  private purchaseAPI = "https://readrightbackend.onrender.com/purchases";
   private token: string = "";
   private userID: string = "";
 
