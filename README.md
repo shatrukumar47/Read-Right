@@ -91,3 +91,45 @@ BACKEND -
 ## Page Not Found
 ![pnf](https://github.com/shatrukumar47/Read-Right/assets/123942835/25c0a329-f40f-47eb-8b40-210371abcf97)
 
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/manikantkr-1004/BookHub.git
+   ```
+
+2. Install frontend dependencies:
+
+   ```bash
+   install frontend dependecies
+   cd Frontend
+   npm install
+   ```
+
+3. Install backend dependecies
+
+    ```bash
+   install frontend dependecies
+   cd Backend
+   npm install
+   ```
+Configure your database (replace [database] with your chosen database):
+
+For MongoDB: create a .env file and create a key value pair with your mongoDb ATlas link.
+
+## Running the Application
+
+Start the backend server:
+ ```bash
+   cd Backend
+   npm run server
+ ```
+
+Start the Angular development server:
+ ```bash
+   cd Frontend
+   ng serve
+ ```
+
