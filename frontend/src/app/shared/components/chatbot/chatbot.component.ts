@@ -1,28 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChatbotService } from '../../../core/services/chatbot.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chatbot',
   templateUrl: './chatbot.component.html',
   styleUrl: './chatbot.component.css',
 })
-export class ChatbotComponent implements OnInit {
+export class ChatbotComponent implements OnInit, AfterViewChecked {
+  @ViewChild('scrollable_parent') private scrollContainer?: ElementRef;
   showChatbot: boolean = false;
   messages: { text: string; from: 'user' | 'bot' }[] = [];
   userMessage: string = '';
   loading: boolean = false;
   books: any = [];
 
-  constructor(private chatbotService: ChatbotService) {}
+  constructor(private chatbotService: ChatbotService, private router: Router) {}
+
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
 
   ngOnInit(): void {
-    // this.callChatBotAPI();
-    this.scrollToBottom();
+    this.callChatBotAPI();
   }
 
   toggleChatbot() {
     this.showChatbot = !this.showChatbot;
     this.scrollToBottom();
+  }
+
+  handleViewBook(bookID: string){
+    this.showChatbot = false;
+    this.router.navigate(['/books', bookID]);
   }
 
   sendMessage() {
@@ -37,13 +47,12 @@ export class ChatbotComponent implements OnInit {
     this.scrollToBottom();
   }
 
-  // Function to scroll to the bottom of the chat container
-  scrollToBottom() {
-    const chatContainer = document.getElementById('chatMessages');
-    if (chatContainer) {
-      chatContainer.scrollTop = chatContainer.scrollHeight;
+  scrollToBottom(): void {
+    if (this.scrollContainer) {
+      this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
     }
   }
+
 
   //Function to call chatBotAPI
   callChatBotAPI() {
