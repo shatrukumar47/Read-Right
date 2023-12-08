@@ -6,6 +6,8 @@ Welcome to Read Right, an advanced online platform that seamlessly integrates a 
 ## Deployment Link
 
 [vercel](https://read-right-shatru.vercel.app/)
+##
+[backend](https://kind-ruby-magpie-sari.cyclic.app/)
 
 ##
 
