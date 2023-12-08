@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { UserService } from '../../core/services/user.service';
+import { ToastrService} from "ngx-toastr"
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class AuthEffects {
         this.userService.login(email, password).pipe(
           map((res) => {
             if(!res.accessToken){
-              alert(res.message)
+              this.toastr.error(res.message)
             }
             if(res.accessToken){
               return AuthActions.loginSuccess({ token: res.accessToken, user: res.user })
@@ -41,7 +42,7 @@ export class AuthEffects {
               localStorage.setItem('token', token);
               localStorage.setItem('user', JSON.stringify(user));
               this.router.navigate(['/']);
-              alert(`Welcome to Read Right, Mr. ${user.username.toUpperCase()}`);
+              this.toastr.success(`Welcome, Mr. ${user.username.toUpperCase()}`)
             }
           }
         })
@@ -53,6 +54,7 @@ export class AuthEffects {
     private userService: UserService,
     private actions$: Actions,
     private router: Router,
+    private toastr: ToastrService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 }

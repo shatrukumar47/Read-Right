@@ -22,9 +22,16 @@
                     <img src="../../../assets/images/chatbot.png" alt="chatbot" width="20px" class="mt-1">
                     <div class="flex flex-col">
                         <p class="bg-white p-2 rounded-lg max-w-[70%] break-words shadow-sm">{{ message.text }}</p> 
-                        <ng-container *ngIf="books.length !== 0">
+                    </div>
+                </div>
+
+                <!-- Books Suggestions  -->
+                <div *ngIf="message.from === 'books'" class="font-semibold flex justify-start items-start gap-[5px] mt-2">
+                    <div class="flex flex-col">
+                        <p class="bg-white p-2 rounded-lg max-w-[70%] break-words shadow-sm">{{ message.text }}</p> 
+                        <ng-container>
                             <div class="flex flex-col gap-2 mt-1">
-                                <a  *ngFor="let book of books" (click)="handleViewBook(book._id)"  class="bg-blue-100 text-[#2B2A4C] p-1 rounded-lg max-w-[90%] break-words shadow-sm hover:underline cursor-pointer">{{ book.title }}</a>
+                                <a  *ngFor="let book of message.books" (click)="handleViewBook(book._id)"  class="bg-blue-100 text-[#2B2A4C] p-1 rounded-lg max-w-[90%] break-words shadow-sm hover:underline cursor-pointer">{{ book.title }}</a>
                             </div>
                         </ng-container>
                     </div>

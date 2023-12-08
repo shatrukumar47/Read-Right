@@ -33,13 +33,19 @@
     
             <!-- Your  -->
             <div *ngIf="openTab === 'your'" class="mt-[30px] p-4 grid lg:grid-cols-3 md:grid-cols-2 gap-5">
-                <div *ngFor="let item of privateLists" class="flex flex-col gap-1 p-3 shadow-lg">
+                <div *ngFor="let item of privateLists" class="flex justify-between p-3 shadow-lg">
+                  <div class="flex flex-col gap-1">
                     <h1 class="font-bold text-gray-800 text-[18px]">{{item.title}}</h1>
                     <p>{{item.books.length}} Books</p>
                     <div class="flex items-center gap-2">
                         <img src="https://bookscape.com/_next/static/media/apple-touch-icon-57x57.e1bb8861.png" alt="" class="w-[25px]">
-                        <h1 class="font-bold text-gray-800 text-[15px]">Created by {{item.username.toUpperCase()}}</h1>
+                        <h1 class="font-bold text-gray-800 text-[15px]">Created by You</h1>
                     </div>
+                  </div>
+                  <div class="flex flex-col justify-between items-end">
+                    <button  (click)="handleDeleteRL(item._id)" class="text-red-600 hover:text-black"><i class="fa-regular fa-trash-can"></i></button>
+                    <button (click)="viewListBtn(item._id)" class="font-bold text-red-600">View</button>
+                  </div>
                 </div>
             </div>
         </div>

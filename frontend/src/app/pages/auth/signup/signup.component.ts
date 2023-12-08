@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../core/services/user.service';
+import { ToastrService} from "ngx-toastr"
 
 @Component({
   selector: 'app-signup',
@@ -23,7 +24,7 @@ export class SignupComponent {
   setTimeoutID: any = null;
 
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private toastr: ToastrService) {}
 
   checkUsernameAvailability() {
     this.debounce(this.checkUsername, 1000)
@@ -41,6 +42,12 @@ export class SignupComponent {
     if(this.user.role && this.user.username && this.user.email && this.user.password){
       this.loading = true;
       this.userService.signup(this.user).subscribe((res)=>{
+        if(!res.registered){
+          this.toastr.error(res.msg);
+        }
+        if(res.registered){
+          this.toastr.success(res.message)
+        }
         this.registered = res.registered;
         this.emailError = res.registered ? "" :  "account already exists"
         this.loading = false;

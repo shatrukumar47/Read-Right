@@ -69,7 +69,7 @@
       <div *ngIf="!loading" class="flex flex-col gap-2">
         <div
           *ngFor="let item of readinglist"
-          (click)="handleAddBookToRL(item._id)"
+          (click)="handleAddBookToRL(item._id, item.title)"
           class="flex gap-2 items-center p-2 border-b shadow-md hover:text-red-600 cursor-pointer"
         >
           <img

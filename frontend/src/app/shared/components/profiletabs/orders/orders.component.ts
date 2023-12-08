@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BookService } from '../../../../core/services/book.service';
 import { PurchaseService } from '../../../../core/services/purchase.service';
+import { ToastrService} from "ngx-toastr"
 
 @Component({
   selector: 'app-orders',
@@ -11,7 +11,7 @@ export class OrdersComponent implements OnInit {
   loading: boolean = false;
   purchases: any = [];
   booksList: any = [];
-  constructor(private bookService: BookService, private purchaseService: PurchaseService){}
+  constructor(private toastr: ToastrService, private purchaseService: PurchaseService){}
 
   ngOnInit(): void {
     this.getPurchaseList()
@@ -20,6 +20,7 @@ export class OrdersComponent implements OnInit {
 
   cancelOrder(purchaseID: string){
     this.purchaseService.deletePurchase(purchaseID).subscribe((res)=>{
+      this.toastr.error("Order Cancelled Succussfully")
       this.getPurchaseList()
     },
     (err)=> {
@@ -30,6 +31,7 @@ export class OrdersComponent implements OnInit {
   getPurchaseList(){
     this.loading = true;
     this.purchaseService.getPurchaseList().subscribe((res)=>{
+      console.log(res)
       this.purchases = res;
       this.loading = false;
       this.getBooks()

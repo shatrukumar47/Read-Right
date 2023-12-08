@@ -21,9 +21,8 @@
             </button>
         </div>
 
-        <p *ngIf="selectedAvatar" class="mt-2 text-green-800 text-[14px]">{{selectedAvatar}} avatar selected ✔</p>
+        <p *ngIf="selectedAvatar" class="mt-2 text-green-800 text-[14px]"><i class="fa-solid fa-circle-check"></i> {{selectedAvatar}} avatar selected</p>
 
-        <h1 *ngIf="updated" class="text-center m-4 text-green-700 font-bold">Updated successfully ✔</h1>
         <!-- Role Select -->
         <div class="mb-4 mt-5">
           <label for="role" class="block text-sm font-medium text-gray-600">Role</label>
@@ -51,8 +50,8 @@
                 <app-loading  [w]="'20px'" [h]="'20px'"></app-loading>
               </div>
           </div>
-          <div *ngIf="usernameError" class="text-[#B31312] text-sm mt-1">{{ usernameError }}</div>
-          <div *ngIf="usernameAvailable" class="text-green-700 text-sm mt-1">username available</div>
+          <div *ngIf="usernameError" class="text-[#B31312] text-sm mt-1"><i class="fa-solid fa-circle-xmark"></i> {{ usernameError }}</div>
+          <div *ngIf="usernameAvailable" class="text-green-700 text-sm mt-1"><i class="fa-solid fa-circle-check"></i> username available</div>
         </div>
     
         <!-- Email Input -->
@@ -82,7 +81,7 @@
             [disabled]="!edit"
             [ngClass]="{ 'disabled-hover': !edit }"
             >
-            <div *ngIf="passwordError" class="text-[#B31312] text-sm mt-1">{{ passwordError }}</div>
+            <div *ngIf="passwordError" class="text-[#B31312] text-sm mt-1"><i class="fa-solid fa-circle-info"></i> {{ passwordError }}</div>
         </div>
     
         <!-- Submit Button -->

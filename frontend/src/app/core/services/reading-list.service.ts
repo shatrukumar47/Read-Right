@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ReadingListService {
-  private api = "https://readrightbackend.onrender.com/reading-lists"
+  private api = "https://kind-ruby-magpie-sari.cyclic.app/reading-lists"
   private token:string = "";
   constructor(private http: HttpClient, private store: Store<AppState>) { }
 
@@ -50,6 +50,15 @@ export class ReadingListService {
       'Content-Type': 'application/json',
     });
     return this.http.post<any>(`${this.api}/addbook/${readingListID}`, {bookID}, {headers})
+  }
+
+  deleteArL(readingListID: string):Observable<any>{
+    this.setToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+      'Content-Type': 'application/json',
+    });
+    return this.http.delete<any>(`${this.api}/delete/${readingListID}`, {headers})
   }
 
 

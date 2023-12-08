@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../core/services/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cart-page',
@@ -11,7 +12,7 @@ export class CartPageComponent implements OnInit {
   loading: boolean = false;
   totalPrice: number = 0;
 
-  constructor(private cartService: CartService){}
+  constructor(private cartService: CartService, private toastr: ToastrService){}
 
   ngOnInit(): void {
     this.getCartData();
@@ -31,6 +32,7 @@ export class CartPageComponent implements OnInit {
 
   removeCartItem(bookID: string){
     this.cartService.removeItemFromCart(bookID).subscribe((res)=>{
+      this.toastr.success("Removed")
       this.getCartData();
     },
     (err)=>{

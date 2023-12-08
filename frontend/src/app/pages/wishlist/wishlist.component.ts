@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ReadingListService } from '../../core/services/reading-list.service';
 import { Router } from '@angular/router';
+import { ToastrService} from "ngx-toastr"
 
 @Component({
   selector: 'app-wishlist',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class WishlistComponent implements OnInit{
   loading: boolean = false;
+  loadingrlDelete: boolean = false;
   booksLoading: boolean = false;
   isModalOpen: boolean = false;
   isViewBooksModalOpen: boolean = false;
@@ -19,7 +21,7 @@ export class WishlistComponent implements OnInit{
   listTitleInp : string = "";
   readingListID : string = "";
   bookTitle : string = "Books";
-  constructor(private readingListService: ReadingListService, private router: Router){}
+  constructor(private readingListService: ReadingListService, private router: Router, private toastr: ToastrService){}
 
   ngOnInit(): void {
     this.getPublicLists()
@@ -32,6 +34,17 @@ export class WishlistComponent implements OnInit{
   handleYourTab(){
     this.getPrivateList()
     this.openTab = "your"
+  }
+
+  handleDeleteRL(rlID: string){
+    this.readingListService.deleteArL(rlID).subscribe((res)=>{
+      this.toastr.error("Deleted Successfully")
+      this.getPrivateList();
+      this.getPublicLists();
+    },
+    (err)=>{
+      console.log(err)
+    })
   }
 
   closeModal(){
@@ -93,6 +106,8 @@ export class WishlistComponent implements OnInit{
 
   createAReadingList(title: string){
     this.readingListService.createReadingList(title).subscribe((res)=>{
+      this.toastr.success(`${title} Created Successfully`)
+      this.getPrivateList()
       this.getPublicLists();
     },
     (err)=> {

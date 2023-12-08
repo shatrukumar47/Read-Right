@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../../../core/services/user.service';
+import { ToastrService} from "ngx-toastr"
 
 @Component({
   selector: 'app-userlists',
@@ -9,7 +10,7 @@ import { UserService } from '../../../../core/services/user.service';
 export class UserlistsComponent {
   loading: boolean = false;
   users: any = [];
-  constructor(private userService: UserService){}
+  constructor(private userService: UserService, private toastr: ToastrService){}
 
   ngOnInit(): void {
     this.getAllUsers()
@@ -17,6 +18,7 @@ export class UserlistsComponent {
 
   deleteUser(userID: string){
     this.userService.deleteUser(userID).subscribe((res)=>{
+      this.toastr.error("User deleted successfully")
       this.getAllUsers()
     },
     (err)=> {

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../../../../core/services/user.service';
+import { ToastrService} from "ngx-toastr"
 
 
 
@@ -38,7 +39,7 @@ export class MyprofileComponent implements OnInit {
   selectedAvatar: string = "";
 
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getUserDetails()
@@ -66,9 +67,9 @@ export class MyprofileComponent implements OnInit {
       console.log("user: ", this.user)
       this.loading = true;
       this.userService.updateUserDetails(this.user).subscribe((res)=>{
-        console.log(res);
         this.updated = res.updated;
         if(res.updated){
+          this.toastr.success(res.message)
           this.edit = false;
           this.getUserDetails();
         }

@@ -7,6 +7,9 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/app.state';
 import { DiscussionService } from '../../../core/services/discussion.service';
 import { CartService } from '../../../core/services/cart.service';
+import { ToastrService} from "ngx-toastr"
+
+
 
 @Component({
   selector: 'app-book-details',
@@ -19,14 +22,14 @@ export class BookDetailsComponent implements OnInit {
   discussions: any = [];
   loading: boolean = false;
   ratingInp: string = '5';
-  reviewInp: string = 'Want to share more? Write here...';
+  reviewInp: string = '';
   isReviewModalOpen: boolean = false;
   isSeeDiscussionsModalOpen: boolean = false;
   isCreateDiscussionsModalOpen: boolean = false;
   isAuth: boolean = false;
   topic: string = '';
   title: string = '';
-  description: string = 'description...';
+  description: string = '';
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -35,7 +38,8 @@ export class BookDetailsComponent implements OnInit {
     private bookReviewService: BookReviewService,
     private store: Store<AppState>,
     private discussionService: DiscussionService,
-    private cartService: CartService
+    private cartService: CartService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -57,29 +61,42 @@ export class BookDetailsComponent implements OnInit {
   }
 
   addToCart() {
-    this.cartService.addToCart(this.book).subscribe((res)=>{
-      alert(res.message);
-    },
-    (err)=>{
-      console.log(err)
-    })
+    if(this.isAuth){
+      this.cartService.addToCart(this.book).subscribe((res)=>{
+        if(!res.added){
+          this.toastr.error(res.message);
+        }
+        if(res.added){
+          this.toastr.success(res.message);
+        }
+      },
+      (err)=>{
+        console.log(err)
+      })
+    }else{
+      this.toastr.error("Login first !")
+    }
   }
 
   buyNow() {
-    this.cartService.addToCart(this.book).subscribe((res)=>{
-      console.log(res)
-    },
-    (err)=>{
-      console.log(err)
-    })
-    this.router.navigate(["cart"])
+    if(this.isAuth){
+      this.cartService.addToCart(this.book).subscribe((res)=>{
+        console.log(res)
+      },
+      (err)=>{
+        console.log(err)
+      })
+      this.router.navigate(["cart"])
+    }else{
+      this.toastr.error("Login first !")
+    }
   }
 
   openModal(): void {
     if (this.isAuth) {
       this.isReviewModalOpen = true;
     } else {
-      this.router.navigate(['login']);
+      this.toastr.error("Login first !")
     }
   }
 
@@ -97,7 +114,11 @@ export class BookDetailsComponent implements OnInit {
   }
 
   openCreateDiscussionModal(): void {
-    this.isCreateDiscussionsModalOpen = true;
+    if (this.isAuth) {
+      this.isCreateDiscussionsModalOpen = true;
+    } else {
+      this.toastr.error("Login first !")
+    }
   }
 
   closeCreateDiscussionModal(): void {
@@ -114,8 +135,7 @@ export class BookDetailsComponent implements OnInit {
       };
       this.discussionService.createDiscussion(payload).subscribe(
         (res) => {
-          console.log(res);
-          alert('Discussion created ✅');
+          this.toastr.success(`Discussion created`)
         },
         (err) => console.log(err)
       );
@@ -127,7 +147,7 @@ export class BookDetailsComponent implements OnInit {
     this.router.navigate(['/discussions', discussionID]);
   };
 
-  createDiscussion() {}
+
 
   postReviewBtn() {
     if (this.reviewInp && this.ratingInp) {
@@ -139,7 +159,12 @@ export class BookDetailsComponent implements OnInit {
       this.loading = true;
       this.bookReviewService.postReview(payload).subscribe(
         (res) => {
-          console.log(res);
+          if(!res.reviewed){
+            this.toastr.error(res.msg)
+          }
+          if(res.reviewed){
+            this.toastr.success("Thank you for your review")
+          }
           this.loading = false;
           this.isReviewModalOpen = false;
           this.getReview();

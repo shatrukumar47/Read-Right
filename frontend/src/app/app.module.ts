@@ -35,6 +35,7 @@ import { AddressesComponent } from './shared/components/profiletabs/addresses/ad
 import { BooksComponent } from './shared/components/profiletabs/books/books.component';
 import { UserlistsComponent } from './shared/components/profiletabs/userlists/userlists.component';
 import { ThankYouComponent } from './shared/components/thank-you/thank-you.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,12 @@ import { ThankYouComponent } from './shared/components/thank-you/thank-you.compo
     UserlistsComponent,
     ThankYouComponent
   ],
-  imports: [BrowserModule,BrowserAnimationsModule, AppRoutingModule, FormsModule, FormsModule, HttpClientModule, StoreModule.forRoot({books: bookReducer, auth: AuthReducer}), EffectsModule.forRoot([BooksEffects, AuthEffects])],
+  imports: [BrowserModule,BrowserAnimationsModule, AppRoutingModule, FormsModule, FormsModule, HttpClientModule, StoreModule.forRoot({books: bookReducer, auth: AuthReducer}), EffectsModule.forRoot([BooksEffects, AuthEffects]), ToastrModule.forRoot({
+    timeOut: 2000,
+    positionClass: 'toast-top-right',
+    preventDuplicates: true,
+    closeButton: true
+  })],
   providers: [],
   bootstrap: [AppComponent],
 })

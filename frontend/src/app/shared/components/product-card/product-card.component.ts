@@ -2,6 +2,7 @@ import { Component, Input, Output , EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
 import { ReadingListService } from '../../../core/services/reading-list.service';
+import { ToastrService} from "ngx-toastr"
 
 @Component({
   selector: 'app-product-card',
@@ -16,12 +17,16 @@ export class ProductCardComponent {
   loading: boolean = false;
 
 
-  constructor(private router: Router, private cartService: CartService, private readingListService: ReadingListService){}
+  constructor(private router: Router, private cartService: CartService, private readingListService: ReadingListService, private toastr: ToastrService){}
 
   addToCart(){
     this.cartService.addToCart(this.item).subscribe((res)=>{
-      console.log(res);
-      alert(res.message);
+      if(!res.added){
+        this.toastr.error(res.message);
+      }
+      if(res.added){
+        this.toastr.success(res.message);
+      }
     },
     (err)=>{
       console.log(err)
@@ -37,10 +42,14 @@ export class ProductCardComponent {
     this.isModalOpen = false;
   }
 
-  handleAddBookToRL(rlID: string){
+  handleAddBookToRL(rlID: string, rLtitle: string){
     this.readingListService.addABookToRL(rlID, this.item._id).subscribe((res)=>{
-      // console.log(res);
-      alert(res.msg)
+      if(!res.added){
+        this.toastr.error(`${res.msg} ${rLtitle}`)
+      }
+      if(res.added){
+        this.toastr.success(`${res.msg} ${rLtitle}`)
+      }
     },
     (err)=>{
       console.log(err)

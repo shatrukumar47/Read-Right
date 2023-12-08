@@ -11,6 +11,7 @@ export class SidebarBooklistComponent implements OnInit {
   @Input() categoryValue:string = '';
  
   @Input() handleRatingCateogry: Function = (): void =>{}
+
  
   ngOnInit(): void {
   

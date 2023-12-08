@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PurchaseService {
-  private purchaseAPI = "https://readrightbackend.onrender.com/purchases";
+  private purchaseAPI = "https://kind-ruby-magpie-sari.cyclic.app/purchases";
   private token: string = "";
   private userID: string = "";
 

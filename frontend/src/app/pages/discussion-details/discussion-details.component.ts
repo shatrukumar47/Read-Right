@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DiscussionService } from '../../core/services/discussion.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-discussion-details',
@@ -12,10 +13,11 @@ export class DiscussionDetailsComponent implements OnInit{
   listloading: boolean = false;
   userMessage: string = "";
   discussionID: string = "";
+  filterBy: string = "all";
   discussionPosts: any = [];
   discussionLists: any = [];
 
-  constructor(private activeRoute: ActivatedRoute, private discussionService: DiscussionService){}
+  constructor(private activeRoute: ActivatedRoute, private discussionService: DiscussionService, private toastr: ToastrService){}
 
   ngOnInit(): void {
     let id:string = this.activeRoute.snapshot.paramMap.get('id') || "";
@@ -42,6 +44,26 @@ export class DiscussionDetailsComponent implements OnInit{
     this.getDiscussionsPost(id);
   }
 
+  filterDiscussion(){
+    this.getDiscussionList();
+  }
+
+  handleDeleteDiscussion(discussionID: string){
+    this.discussionService.deleteDiscussion(discussionID).subscribe((res)=>{
+      console.log(res);
+      this.toastr.success("Deleted Successfully")
+      this.getDiscussionList();
+    },
+    (err)=>{
+      console.log(err)
+      this.toastr.error("Network Error")
+    })
+  }
+
+  handleRefreshChat(){
+    this.getDiscussionsPost(this.discussionID);
+  }
+
 
   getDiscussionsPost(id: string){
     this.chatloading = true;
@@ -57,7 +79,7 @@ export class DiscussionDetailsComponent implements OnInit{
 
   getDiscussionList(){
     this.listloading = true;
-    this.discussionService.getAllDiscussions().subscribe((res)=>{
+    this.discussionService.getAllDiscussions(this.filterBy).subscribe((res)=>{
       this.discussionLists = res;
       this.listloading = false;
     },

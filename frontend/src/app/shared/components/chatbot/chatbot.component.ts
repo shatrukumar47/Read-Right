@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class ChatbotComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollable_parent') private scrollContainer?: ElementRef;
   showChatbot: boolean = false;
-  messages: { text: string; from: 'user' | 'bot' }[] = [];
+  messages: { text: string; from: 'user' | 'bot' | 'books'; books?: any }[] = [];
   userMessage: string = '';
   loading: boolean = false;
   books: any = [];
@@ -22,7 +22,8 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.callChatBotAPI();
+    this.messages.push({ text: "Welcome to Read-Right! How may I assist you today?", from: 'bot' });
+    // this.callChatBotAPI();
   }
 
   toggleChatbot() {
@@ -59,12 +60,12 @@ export class ChatbotComponent implements OnInit, AfterViewChecked {
     this.loading = true;
     this.chatbotService.sendMessageToChatAPI(this.userMessage).subscribe(
       (res) => {
-        console.log(res);
         if (Array.isArray(res) && res.length !== 0) {
           this.books = res;
           this.messages.push({
             text: 'Here are some suggestions:',
-            from: 'bot',
+            from: 'books',
+            books: [...this.books]
           });
         } else {
           this.messages.push({ text: res.response, from: 'bot' });

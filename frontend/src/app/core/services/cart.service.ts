@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
-  private cartAPI = "https://readrightbackend.onrender.com/cart";
+  private cartAPI = "https://kind-ruby-magpie-sari.cyclic.app/cart";
   private token: string = "";
   private userID: string = "";
   private totalAmount: number = 0;

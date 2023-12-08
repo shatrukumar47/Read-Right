@@ -18,6 +18,7 @@ export class CheckoutComponent implements OnInit{
   cvv:number | string = "";
   books: any = [];
   mapppedBooks: any = [];
+  totalAmount: number = 0;
   loading: boolean = false;
 
   constructor(private router: Router, private cartService: CartService, private purchaseService: PurchaseService) {}
@@ -33,19 +34,19 @@ export class CheckoutComponent implements OnInit{
   }
 
   onSubmit(){
+    this.totalAmount = this.cartService.getTotalAmount()
     if(this.delivery_address && this.pincode && this.cardNumber && this.cardholder && this.cardType && this.expiry_date && this.cvv){
       let payload = {
         delivery_address: this.delivery_address,
         pincode: this.pincode,
         books: this.mapBooks(),
-        amount: this.cartService.getTotalAmount(),
+        amount: this.totalAmount,
         payment_details: [this.cardholder , this.cardNumber ],
       }
       this.loading = true;
       this.purchaseService.createPurchase(payload).subscribe((res)=>{
         this.loading = false;
         this.cartService.clearCartAfterPurchase().subscribe((res)=>{
-          // console.log(res)
         },
         (err)=>{
           console.log(err)
@@ -61,8 +62,13 @@ export class CheckoutComponent implements OnInit{
 
   mapBooks(){
     let mappedBooks = this.books.map((item: any)=>{
-      return item.book
+      return {...item.book, quantity: item.quantity}
     })
     return mappedBooks;
+  }
+
+  handleValidCardNo(){
+    this.cardNumber = +this.cardNumber.toString().replace(/\D/g, "").slice(0, 16)
+
   }
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { BookService } from '../../../../core/services/book.service';
-import { PurchaseService } from '../../../../core/services/purchase.service';
+import { ToastrService} from "ngx-toastr"
 
 @Component({
   selector: 'app-books',
@@ -21,7 +21,7 @@ export class BooksComponent {
     price: ""
   }
 
-  constructor(private bookService: BookService){}
+  constructor(private bookService: BookService, private toastr: ToastrService){}
 
   ngOnInit(): void {
     this.getBooks()
@@ -39,11 +39,10 @@ export class BooksComponent {
     if(this.book.image && this.book.title && this.book.genre && this.book.price && this.book.author && this.book.description){
       this.loadingPublish = true;
       this.bookService.publishBook(this.book).subscribe((res)=>{
-        console.log(res);
+        this.toastr.success(`${this.book.title} published successfully`)
         this.getBooks();
         this.loadingPublish = false;
         this.isModalOpen = false;
-        alert(res.msg);
         this.book = {
           image: "",
           title: "",
@@ -63,6 +62,9 @@ export class BooksComponent {
 
   deleteBook(bookID: string){
     this.bookService.deleteABook(bookID).subscribe((res)=>{
+      if(res.deleted){
+        this.toastr.error("Book Deleted successfully")
+      }
       this.getBooks()
     },
     (err)=> {
