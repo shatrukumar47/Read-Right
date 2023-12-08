@@ -63,32 +63,34 @@ BACKEND -
 
 # Snap Shots 📷
 ## Landing Page
-![home](https://github.com/shatrukumar47/Read-Right/assets/123942835/aa5c2360-ec4b-4b33-a38e-ab3df7446ce2)
+![1](https://github.com/shatrukumar47/Read-Right/assets/123942835/f91759f3-da8f-4b9c-a692-a95d45085c21)
 
 ## Login Page
-![login](https://github.com/shatrukumar47/Read-Right/assets/123942835/c533ec72-c5c7-43ae-bd29-0e905b643b04)
+![9](https://github.com/shatrukumar47/Read-Right/assets/123942835/ee28c071-f905-4ca6-8bd8-f8764d408582)
 
 ## Signup Page 
-![signup](https://github.com/shatrukumar47/Read-Right/assets/123942835/1f354fce-3246-4aa5-a979-bc15c9ffc2a5)
+![10](https://github.com/shatrukumar47/Read-Right/assets/123942835/8c0d6e6a-be99-4634-8de3-3ac682a5d5f8)
 
 ## Profile Page
-![profile](https://github.com/shatrukumar47/Read-Right/assets/123942835/337d816b-0f55-4838-bab0-b75f5d1ad8a9)
+![6](https://github.com/shatrukumar47/Read-Right/assets/123942835/d8b6e1ec-f538-4a39-bb46-a0c4b1ab143f)
 
 ## Reading List
-![reading list](https://github.com/shatrukumar47/Read-Right/assets/123942835/96f152ef-96e5-4f84-86d1-8b3bac464905)
+![5](https://github.com/shatrukumar47/Read-Right/assets/123942835/e2dd073f-936b-425b-96a9-1e76f5a160b0)
 
 ## Book List Page
-![book list](https://github.com/shatrukumar47/Read-Right/assets/123942835/d70ce65f-d661-4a50-9922-8b81fcbc76ea)
+![2](https://github.com/shatrukumar47/Read-Right/assets/123942835/d371b7b2-6fd9-491b-9a3e-889d5da61af3)
 
 ## Book Details Page
-![book detail](https://github.com/shatrukumar47/Read-Right/assets/123942835/bb3ac549-430d-445f-a97a-f80667190a7b)
-![review](https://github.com/shatrukumar47/Read-Right/assets/123942835/cf0535b1-fe4a-4895-8cd9-d96c8326e6f2)
+![3](https://github.com/shatrukumar47/Read-Right/assets/123942835/5da9177c-5072-4135-b9a8-13c77828255c)
+
+## Community Discussion
+![4](https://github.com/shatrukumar47/Read-Right/assets/123942835/6325759d-efac-4ec6-bb45-2b56743b2663)
 
 ## Cart Page
-![cart page](https://github.com/shatrukumar47/Read-Right/assets/123942835/4993a0a6-148e-4cab-a48c-71d2964dd662)
+![7](https://github.com/shatrukumar47/Read-Right/assets/123942835/b9326ad7-44d6-4d31-826d-e21fcae7999a)
 
 ## Checkout Page
-![checkout](https://github.com/shatrukumar47/Read-Right/assets/123942835/c6c2c4ff-ee08-4eda-bd83-33943c427b1f)
+![8](https://github.com/shatrukumar47/Read-Right/assets/123942835/65980d98-635b-4b3d-a8fb-7a97e08decee)
 
 ## Page Not Found
 ![pnf](https://github.com/shatrukumar47/Read-Right/assets/123942835/25c0a329-f40f-47eb-8b40-210371abcf97)
