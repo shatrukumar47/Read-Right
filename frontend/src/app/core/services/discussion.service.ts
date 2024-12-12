@@ -8,8 +8,8 @@ import { Observable, filter } from 'rxjs';
   providedIn: 'root'
 })
 export class DiscussionService {
-  private discussionAPI = "https://kind-ruby-magpie-sari.cyclic.app/community"
-  private discussionPostAPI = "https://kind-ruby-magpie-sari.cyclic.app/posts"
+  private discussionAPI = "https://readrightbackend.onrender.com/community"
+  private discussionPostAPI = "https://readrightbackend.onrender.com/posts"
   private token:string = "";
   private userID: string = "";
   constructor(private http: HttpClient, private store: Store<AppState>) { }

@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
   providedIn: 'root'
 })
 export class BookService implements OnDestroy {
-  private api = "https://kind-ruby-magpie-sari.cyclic.app/books"
+  private api = "https://readrightbackend.onrender.com/books"
   private destroy$: Subject<void> = new Subject<void>()
   genre: string = "";
   private token: string = "";

@@ -8,7 +8,7 @@ import {Observable, ObservableLike} from "rxjs"
   providedIn: 'root'
 })
 export class UserService {
-  private apiLogin = "https://kind-ruby-magpie-sari.cyclic.app/users";
+  private apiLogin = "https://readrightbackend.onrender.com/users";
   private token: string = "";
   private userID: string = "";
   constructor(private http: HttpClient, private store: Store<AppState>) { }

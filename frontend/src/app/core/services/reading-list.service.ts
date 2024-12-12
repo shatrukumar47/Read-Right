@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ReadingListService {
-  private api = "https://kind-ruby-magpie-sari.cyclic.app/reading-lists"
+  private api = "https://readrightbackend.onrender.com/reading-lists"
   private token:string = "";
   constructor(private http: HttpClient, private store: Store<AppState>) { }
 

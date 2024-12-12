@@ -7,7 +7,7 @@ import {Observable} from "rxjs"
 })
 export class ChatbotService {
 
-  private api: string = "https://kind-ruby-magpie-sari.cyclic.app/chatbot"
+  private api: string = "https://readrightbackend.onrender.com/chatbot"
 
   constructor(private http: HttpClient) { }
 
