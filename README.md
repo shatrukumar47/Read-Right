@@ -7,7 +7,7 @@ Welcome to Read Right, an advanced online platform that seamlessly integrates a 
 
 [vercel](https://readrightshatru.vercel.app/)
 ##
-[backend](https://kind-ruby-magpie-sari.cyclic.app/)
+[backend](https://readrightbackend.onrender.com/)
 
 ##
 
